@@ -1,0 +1,81 @@
+---
+- hosts: localhost
+  connection: local 
+  become: true
+  gather_facts: no
+
+  vars:
+    - pass1: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters') }}"
+    - pass2: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters') }}"
+    - param1: "ddb_{{ lookup('password', '/dev/null length=4 chars=ascii_letters') }}"
+    - param2: "dusr_{{ lookup('password', '/dev/null length=4 chars=ascii_letters') }}"
+          
+
+  tasks:
+    - set_fact:
+        mysql_root_password: '{{ pass1 }}'
+    - set_fact:
+        mysql_password: '{{ pass2 }}'
+    - set_fact:
+        mysql_db: '{{ param1 }}'
+    - set_fact:
+        mysql_user: '{{ param2 }}'
+
+    - debug:
+        msg: "root pass: {{ mysql_root_password }}"        
+    - debug:
+        msg: "db pass: {{ mysql_password }}" 
+    - debug:
+        msg: "db name: {{ mysql_db }}" 
+    - debug:
+        msg: "db user: {{ mysql_user }}"
+
+
+  # MySQL Configuration
+    - name: Set the root password
+      mysql_user:
+        name: root
+        password: '{{ mysql_root_password }}'
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+      register: mysql_log
+      tags: [ mysql, mysql-root ]
+    - debug:
+        msg: "{{ mysql_log }}"
+
+    - name: Remove all anonymous user accounts
+      mysql_user:
+        name: ''
+        host_all: yes
+        state: absent
+        login_user: root
+        #login_unix_socket: /var/lib/mysql/mysql.sock
+        login_password: "{{ mysql_root_password }}"
+      tags: [ mysql ]
+
+    - name: Remove the MySQL test database
+      mysql_db:
+        name: test
+        state: absent
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+      tags: [ mysql ]
+
+    - name: Creates database  
+      mysql_db:
+        name: "{{ mysql_db }}"
+        state: present
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+      tags: [ db_create ]
+
+    - name: Create MySQL user
+      mysql_user:
+        name: "{{ mysql_user }}"
+        password: "{{ mysql_password }}"
+        priv: "{{ mysql_db }}.*:ALL"
+        state: present
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+      tags: [ db_create ]
+
+ 
