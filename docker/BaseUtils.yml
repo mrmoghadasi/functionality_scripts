@@ -43,3 +43,25 @@ services:
     networks:
       - mrm-net
     restart: on-failure      
+
+  watchtower:
+    image: containrrr/watchtower:amd64-1.5.3
+    container_name: watchtower
+    restart: always
+    hostname: iranserver-staging
+    environment:
+      WATCHTOWER_NOTIFICATION_URL: $ROCKET_URL
+      WATCHTOWER_ROLLING_RESTART: true
+      DOCKER_CONFIG: /config
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/user/.docker/:/config:ro
+      - /etc/localtime:/etc/localtime:ro
+    command: --label-enable --cleanup --interval 10
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"      
+    networks:
+      - mrm-net
+
+
+    
