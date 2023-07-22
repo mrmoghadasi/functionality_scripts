@@ -1,2 +1,6 @@
-allow port1
-deny port2
+allow 443
+allow 80
+allow 22
+allow 9001
+allow 5050
+deny 53
