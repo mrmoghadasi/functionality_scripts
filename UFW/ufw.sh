@@ -95,7 +95,7 @@ ufw default deny incoming
 ufw default allow outgoing
 
 # Enable UFW
-ufw enable
+echo "y" | sudo ufw enable
 
 #List all firewall rules
 sudo ufw status numbered verbose
