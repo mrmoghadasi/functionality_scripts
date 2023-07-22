@@ -1,0 +1,4 @@
+allow ip1
+allow ip2 port1
+deny ip3
+deny ip4 port4
