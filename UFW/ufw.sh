@@ -90,7 +90,9 @@ else
     echo "Port rules file not found: $port_rules_file"
 fi
 
-
+# set default rules: deny all incoming traffic, allow all outgoing traffic
+ufw default deny incoming
+ufw default allow outgoing
 
 # Enable UFW
 ufw enable
