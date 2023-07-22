@@ -44,7 +44,7 @@ else
 # UFW disable and reset
     ufw disable
     echo "UFW disabe !"
-    ufw reset --force
+    echo "y" | sudo ufw reset
     echo "UFW reset !"
 fi
 
