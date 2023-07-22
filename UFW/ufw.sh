@@ -74,17 +74,22 @@ if [ -f "$port_rules_file" ]; then
         action=$(echo "$line" | awk '{print $1}')
         port=$(echo "$line" | awk '{print $2}')
         
-        if [ "$action" == "allow" ]; then
-            add_port_rule "allow" "$port"
-        elif [ "$action" == "deny" ]; then
-            add_port_rule "deny" "$port"
+        if [ -n "$port" ]; then
+            if [ "$action" == "allow" ]; then
+                add_port_rule "allow" "$port"
+            elif [ "$action" == "deny" ]; then
+                add_port_rule "deny" "$port"
+            else
+                echo "Invalid action specified in the port rules file: $action"
+            fi
         else
-            echo "Invalid action specified in the port rules file: $action"
+            echo "Port not specified in the port rules file: $line"
         fi
     done < "$port_rules_file"
 else
     echo "Port rules file not found: $port_rules_file"
 fi
+
 
 
 # Enable UFW
