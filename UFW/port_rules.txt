@@ -1,0 +1,2 @@
+allow port1
+deny port2
