@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define variables
-SCRIPT_URL="https://raw.githubusercontent.com/mrmoghadasi/functionality_scripts/main/close_port/close_port.ssh"
+SCRIPT_URL="https://raw.githubusercontent.com/mrmoghadasi/functionality_scripts/main/close_port/close_port.sh"
 SCRIPT_PATH="$HOME/close_port.sh"
 ALIAS_NAME="closeport"
 BASHRC_PATH="$HOME/.bashrc"
