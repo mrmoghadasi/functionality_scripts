@@ -6,7 +6,8 @@ This script finds and kills the process using a specific port.
 ## Installation
 1. Download and install the script:
    ```
-   sh <(curl -s https://github.com/mrmoghadasi/functionality_scripts/blob/main/close_port/setup_close_port.sh)
+   
+   sh <(curl -s https://raw.githubusercontent.com/mrmoghadasi/functionality_scripts/refs/heads/main/close_port/setup_close_port.sh)
    ```
 
 ## Usage
